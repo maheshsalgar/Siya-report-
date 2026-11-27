@@ -14,7 +14,7 @@ const str = (v, max = 2000) => (typeof v === 'string' ? v.slice(0, max) : '');
 const num = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
 const iso = (ts) => (ts && ts.toDate ? ts.toDate().toISOString() : null);
 const cleanId = (v) => str(v, 100).replace(/[^\w-]/g, '');
-const photoOk = (p) => typeof p === 'string' && p.startsWith('data:image/jpeg;base64,') && p.length < 700000;
+const photoOk = (p) => typeof p === 'string' && p.startsWith('data:image/jpeg;base64,') && p.length < 950000;
 
 module.exports = function reportsRouter(auth, ext = {}) {
   const { needOtp, sendMail } = ext;
@@ -97,7 +97,7 @@ module.exports = function reportsRouter(auth, ext = {}) {
         return res.status(400).json({ message: `Up to ${MAX_PHOTOS} photos are allowed.` });
       }
       if (!list.every(photoOk)) {
-        return res.status(400).json({ message: 'A photo is invalid or too large.' });
+        return res.status(400).json({ message: 'A photo is invalid or too large (max ~700 KB each).' });
       }
 
       const batch = admin.firestore().batch();
