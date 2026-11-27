@@ -24,6 +24,19 @@ const db = admin.firestore();
 const users = db.collection('users');
 
 const app = express();
+app.set('trust proxy', 1);                         // Render sits behind a proxy (correct client IP)
+
+// log every request: method, url, status, time and the error message (if any)
+app.use((req, res, next) => {
+  const t0 = Date.now();
+  const oj = res.json.bind(res);
+  res.json = (b) => { if (res.statusCode >= 400 && b && b.message) res.locals.msg = b.message; return oj(b); };
+  res.on('finish', () => {
+    if (req.method === 'OPTIONS' || req.path === '/') return;
+    console.log(`${req.method} ${req.originalUrl} ${res.statusCode} ${Date.now() - t0}ms${res.locals.msg ? ' - ' + res.locals.msg : ''}`);
+  });
+  next();
+});
 app.use(cors());                                   // app uses Bearer tokens, not cookies
 app.use(express.json({ limit: '25mb' }));          // reports can include photos
 
