@@ -1,0 +1,2167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#082c73">
+<title>SIYA Daily Report</title>
+
+<style>
+:root{--navy:#082c73;--blue:#1265c8;--sky:#eaf3ff;--gold:#ffca28;--ink:#15233b;--muted:#65748b;--line:#d9e3f0}
+*{box-sizing:border-box}
+body{margin:0;background:#f3f7fc;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+header{background:linear-gradient(120deg,#061e56,#0878d1);color:white;padding:18px 16px 22px}
+.brand{max-width:900px;margin:auto;display:flex;align-items:center;gap:12px}
+.logo{width:54px;height:54px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:19px;color:var(--gold)}
+h1{font-size:23px;margin:0;letter-spacing:.5px}
+header p{margin:5px 0 0;color:#dcecff;font-size:13px}
+main{max-width:900px;margin:18px auto;padding:0 12px 40px}
+.card{background:white;border:1px solid var(--line);border-radius:15px;padding:17px;margin-bottom:15px;box-shadow:0 5px 18px #17365d0b}
+h2{font-size:18px;margin:0 0 14px;color:var(--navy)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:#33445e}
+input,select,textarea{width:100%;border:1px solid #cbd8e8;border-radius:9px;padding:11px 10px;font:inherit;font-size:14px;background:#fff;color:var(--ink)}
+textarea{min-height:78px;resize:vertical}
+button{border:0;border-radius:9px;padding:11px 15px;font-weight:700;font-size:14px;cursor:pointer}
+.primary{background:var(--navy);color:white}
+.secondary{background:#e6f0ff;color:var(--navy)}
+.danger{background:#ffeded;color:#a21d2a}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+.hidden{display:none!important}
+.hint{font-size:12px;color:var(--muted);line-height:1.5}
+#loginPanel{max-width:460px;margin:28px auto}
+.material-head,.material-row{display:grid;grid-template-columns:2fr .8fr 1fr 38px;gap:7px;align-items:center}
+.material-head{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:7px}
+.material-row{margin-bottom:8px}
+.material-row input{min-width:0;padding:10px 7px}
+.remove{padding:9px;background:#ffeded;color:#a21d2a}
+.total{display:flex;justify-content:space-between;align-items:center;background:var(--sky);border-radius:10px;padding:13px;margin-top:12px;font-weight:700}
+.photo-preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.photo-preview img{width:95px;height:95px;object-fit:cover;border-radius:9px;border:1px solid var(--line)}
+.report-item{border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:9px}
+.report-item strong{color:var(--navy)}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:15px}
+@media(max-width:560px){
+.grid{grid-template-columns:1fr}
+.material-head,.material-row{grid-template-columns:1.5fr .7fr .9fr 34px}
+.material-row input{padding:10px 4px;font-size:14px}
+.card{padding:14px}
+h1{font-size:20px}
+}
+@media print{
+header,.no-print,#loginPanel,footer{display:none!important}
+body{background:white}
+.card{box-shadow:none;break-inside:avoid}
+main{margin:0;max-width:none}
+.report-item{break-inside:avoid}
+}
+.lang{margin-left:auto;background:#ffffff22;color:#fff;border:1px solid var(--gold);padding:8px 14px}
+.thumb{position:relative;width:95px;height:95px}
+.thumb img{width:95px;height:95px}
+.thumb-x{position:absolute;top:3px;right:3px;padding:1px 8px;font-size:16px;line-height:1.3;background:#000000a8;color:#fff;border-radius:50%}
+.badge{display:inline-block;font-size:12px;font-weight:700;border-radius:20px;padding:3px 10px;margin-top:6px}
+.badge.ok{background:#e3f6e8;color:#15702f}
+.badge.wait{background:#fff3d6;color:#8a5a00}
+.detail{margin-top:10px;border-top:1px dashed var(--line);padding-top:10px;font-size:14px;line-height:1.6}
+.detail .photo-preview img{cursor:zoom-in}
+#lightbox{position:fixed;inset:0;background:#000000e6;z-index:99;display:flex;align-items:center;justify-content:center;padding:10px}
+#lightbox img{max-width:100%;max-height:100%;object-fit:contain}
+.checks{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chk{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-size:14px;margin:0}
+.chk input,.showpw input{width:auto}
+.showpw{display:flex;align-items:center;gap:8px;font-size:14px;margin:8px 0 0}
+.modal{position:fixed;inset:0;background:#000000cc;z-index:98;display:flex;align-items:center;justify-content:center;padding:14px}
+.modal .card{max-width:480px;width:100%;max-height:90vh;overflow:auto;margin:0}
+#lbShare{position:fixed;bottom:22px;right:22px;z-index:100}
+.tabs{display:flex;gap:8px;margin:0 0 12px}
+.tab{flex:1;background:#fff;color:#333;border:1px solid var(--line);font-weight:700}
+.tab.on{background:#7a1f1f;color:#fff;border-color:#7a1f1f}
+.gsm-row{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid var(--line);border-radius:9px;padding:8px 10px;margin:6px 0;font-size:14px;word-break:break-all}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="brand">
+<div class="logo">SIYA</div>
+<div>
+<h1>DAILY REPORT</h1>
+<p>Work Today... Report Tomorrow.</p>
+</div>
+<button type="button" id="langBtn" class="lang"></button>
+</div>
+</header>
+
+<main>
+
+<section id="loginPanel" class="card">
+
+<h2>Login to SIYA</h2>
+
+<div class="grid">
+
+<div>
+<label for="loginRole">Login type</label>
+<select id="loginRole">
+<option value="Employee">Employee</option>
+<option value="Admin">Admin</option>
+</select>
+</div>
+
+<div>
+<label for="loginId">User ID</label>
+<input id="loginId" placeholder="Enter User ID" autocomplete="username">
+</div>
+
+<div>
+<label for="loginPass">Password</label>
+<input id="loginPass" type="password" placeholder="Enter password" autocomplete="current-password">
+<label class="showpw"><input type="checkbox" data-showpw="loginPass"><span>Show password</span></label>
+</div>
+
+</div>
+
+<div class="actions">
+<button class="primary" type="button" id="loginBtn">Login</button>
+</div>
+
+<p class="hint">Sign in using the account created by your SIYA Admin.</p>
+<p id="loginMessage" class="hint" role="status"></p>
+
+</section>
+
+
+<section id="appPanel" class="hidden">
+
+<div class="card no-print" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+
+<div>
+<strong id="welcome"></strong>
+<div class="hint">Saved reports stay only in this device/browser; they are not uploaded to the server.</div>
+</div>
+
+<div class="actions" style="margin:0">
+<button class="secondary" id="showReports">Saved Reports</button>
+<button class="danger" id="logoutBtn">Logout</button>
+</div>
+
+</div>
+
+
+
+<section id="adminPanel" class="card hidden no-print">
+  <h2>Employee Management</h2>
+  <div class="card" style="margin:0 0 14px">
+    <h2>Create Employee</h2>
+    <div class="grid">
+      <div><label for="newEmployeeId">Employee User ID</label><input id="newEmployeeId" placeholder="e.g. emp01" autocomplete="off"></div>
+      <div><label for="newEmployeeName">Employee Name</label><input id="newEmployeeName" placeholder="Enter employee name" autocomplete="name"></div>
+      <div><label for="newEmployeePassword">Temporary Password</label><input id="newEmployeePassword" type="password" placeholder="Minimum 12 characters" autocomplete="new-password"><label class="showpw"><input type="checkbox" data-showpw="newEmployeePassword"><span>Show password</span></label></div>
+    </div>
+    <div class="actions">
+      <button type="button" class="primary" id="createEmployeeBtn">Create Employee</button>
+      <button type="button" class="secondary" id="refreshEmployeesBtn">Refresh Employee List</button>
+    </div>
+    <p id="employeeMessage" class="hint" role="status"></p>
+  </div>
+  <h2>Registered Employees</h2>
+  <div id="employeesList" class="hint">Loading employees...</div>
+  <div class="card" style="margin:14px 0 0">
+    <h2>Employee Reports</h2>
+    <div class="grid">
+      <div><label for="adminFrom">From</label><input id="adminFrom" type="date"></div>
+      <div><label for="adminTo">To</label><input id="adminTo" type="date"></div>
+      <div><label for="adminMonth">Month</label><input id="adminMonth" type="month"></div>
+      <div><label for="adminTsp">TSP</label><select id="adminTsp"><option value="">All TSP</option></select></div>
+    </div>
+    <div class="actions">
+      <button type="button" class="primary" id="loadAdminReportsBtn">Load Reports</button>
+      <button type="button" class="secondary" id="showAllReportsBtn">Show All</button>
+      <button type="button" class="secondary" id="exportAllBtn">Excel (all shown)</button>
+      <button type="button" class="secondary" id="pdfAllBtn">PDF (all shown)</button>
+      <button type="button" class="secondary" id="waAllBtn">WhatsApp (all shown)</button>
+    </div>
+    <input id="adminSearch" placeholder="Search site or employee" style="margin-top:12px">
+    <div id="adminSummary" class="hint" style="margin-top:8px;font-weight:700"></div>
+    <div id="adminReportsList" class="hint" style="margin-top:10px"></div>
+  </div>
+  <div class="card" style="margin:14px 0 0">
+    <h2>Manage Lists</h2>
+    <label for="optTsp">TSP list (one per line)</label>
+    <textarea id="optTsp" rows="5"></textarea>
+    <label for="optInst">Installation items (one per line)</label>
+    <textarea id="optInst" rows="7"></textarea>
+    <div class="actions"><button type="button" class="primary" id="saveOptionsBtn">Save</button></div>
+  </div>
+</section>
+
+<form id="reportForm">
+<div class="tabs" id="formTabs"><button type="button" class="tab on" data-tab="report">Report</button><button type="button" class="tab" data-tab="gsm">GSM</button></div>
+
+<div class="card tab-report">
+
+<h2>1. Site Information</h2>
+
+<div class="grid">
+
+<div>
+<label for="reportDate">Date</label>
+<input id="reportDate" type="date" required>
+</div>
+
+<div>
+<label for="siteId">Site ID</label>
+<input id="siteId" placeholder="Enter Site ID" required>
+</div>
+
+<div>
+<label for="siteName">Site Name</label>
+<input id="siteName" placeholder="Enter site name">
+</div>
+
+<div>
+<label for="location">Location</label>
+<input id="location" placeholder="Village / Taluka / District">
+</div>
+
+<div>
+<label for="rrlNo">R-RL NO</label>
+<input id="rrlNo" maxlength="60" placeholder="R-RL NO">
+</div>
+
+<div>
+<label for="tspSel">TSP</label>
+<select id="tspSel"></select>
+<input id="tspOther" class="hidden" maxlength="100" placeholder="Other (write here)" style="margin-top:6px">
+</div>
+
+<div>
+<label for="employeeName">Supervisor Name</label>
+<input id="employeeName" placeholder="Enter supervisor name" required>
+</div>
+
+<div>
+<label for="workStatus">Work Status</label>
+<select id="workStatus">
+<option value="In Progress">In Progress</option>
+<option value="Completed">Completed</option>
+<option value="Pending">Pending</option>
+<option value="On Hold">On Hold</option>
+</select>
+</div>
+
+</div>
+
+<div style="margin-top:12px">
+<label for="siteInfo">Site Information / Work Description</label>
+<textarea id="siteInfo" placeholder="Write today's work details..."></textarea>
+</div>
+
+</div>
+
+
+<div class="card tab-report">
+<h2>Auditor Details</h2>
+<div class="grid">
+<div><label for="auditorName">Auditor Name</label><input id="auditorName" maxlength="100" placeholder="Enter auditor name"></div>
+<div><label for="auditorPhone">Auditor Phone</label><input id="auditorPhone" type="tel" inputmode="tel" maxlength="20" placeholder="Phone number"></div>
+</div>
+</div>
+
+<div class="card tab-report">
+<h2>Work Type</h2>
+<div class="checks" id="workTypes"><label class="chk"><input type="checkbox" value="Civil"><span>Civil</span></label><label class="chk"><input type="checkbox" value="Electric"><span>Electric</span></label><label class="chk"><input type="checkbox" value="Height"><span>Height</span></label><label class="chk"><input type="checkbox" value="Other"><span>Other</span></label></div>
+<input id="workOther" class="hidden" maxlength="200" placeholder="Other (write here)">
+<h2>Installation</h2>
+<div class="checks" id="installs"></div>
+<input id="installOther" class="hidden" maxlength="200" placeholder="Other (write here)">
+</div>
+
+<div class="card tab-report">
+
+<h2>2. Material Details & Cost</h2>
+
+<div class="material-head">
+<span>Material name</span>
+<span>Qty</span>
+<span>Rate (₹)</span>
+<span></span>
+</div>
+
+<div id="materialRows"></div>
+
+<div class="actions no-print">
+<button type="button" class="secondary" id="addMaterial">+ Add Material</button>
+</div>
+
+<div class="total">
+<span>Total Material Cost</span>
+<span id="totalCost">₹ 0.00</span>
+</div>
+
+</div>
+
+
+<div class="card tab-report">
+
+<h2>3. Site Photos</h2>
+
+<label for="photos">Take photo or choose from gallery</label>
+
+<input id="photos" type="file" accept="image/*" multiple>
+
+<p class="hint">On mobile, your phone may offer Camera or Gallery. Photos are attached to this report in this browser.</p>
+
+<div id="photoPreview" class="photo-preview"></div>
+
+</div>
+
+
+<div class="card hidden" id="gsmCard">
+<h2>GSM</h2>
+<p class="hint">GSM photos or PDF</p>
+<input id="gsmFiles" type="file" accept="image/*,application/pdf" multiple>
+<div id="gsmList"></div>
+</div>
+
+<div class="card">
+
+<h2>4. Save & Share Report</h2>
+
+<div class="grid">
+
+<div>
+<label for="remarks">Remarks</label>
+<textarea id="remarks" placeholder="Any additional remarks..."></textarea>
+</div>
+
+<div>
+<label for="reportBy">Prepared By</label>
+<input id="reportBy" placeholder="Name / Employee ID">
+</div>
+
+</div>
+
+<div class="actions no-print">
+
+<button class="primary" type="submit">Save Daily Report</button>
+
+<button class="secondary" type="button" id="printBtn">
+Print / Save as PDF
+</button>
+
+<button class="secondary" type="button" id="shareBtn">
+Share Report
+</button>
+
+<button class="danger" type="reset" id="clearBtn">
+Clear Form
+</button>
+
+</div>
+
+<p id="saveMessage" class="hint" role="status"></p>
+
+</div>
+
+</form>
+
+
+<section id="reportsSection" class="card hidden">
+
+<h2>Saved Reports</h2>
+<div id="reportsList"></div>
+
+</section>
+
+</section>
+
+</main>
+
+<footer>SIYA • DAILY REPORT</footer>
+
+
+<div id="lightbox" class="hidden"><img alt=""><button type="button" id="lbShare" class="primary">Share</button></div>
+<div id="otpBox" class="modal hidden"></div>
+<div id="editBox" class="modal hidden"></div>
+
+<script>
+
+const $=id=>document.getElementById(id);
+
+// ===== LANGUAGE (English / मराठी) =====
+const MR={
+ "SIYA Daily Report": "SIYA दैनिक अहवाल",
+ "DAILY REPORT": "दैनिक अहवाल",
+ "Work Today... Report Tomorrow.": "आज काम करा... उद्या अहवाल द्या.",
+ "Login to SIYA": "SIYA मध्ये लॉगिन करा",
+ "Login type": "लॉगिन प्रकार",
+ "Employee": "कर्मचारी",
+ "Admin": "ॲडमिन",
+ "employee": "कर्मचारी",
+ "admin": "ॲडमिन",
+ "User ID": "वापरकर्ता आयडी",
+ "Enter User ID": "वापरकर्ता आयडी टाका",
+ "Password": "पासवर्ड",
+ "Enter password": "पासवर्ड टाका",
+ "Login": "लॉगिन",
+ "Sign in using the account created by your SIYA Admin.": "तुमच्या SIYA ॲडमिनने तयार केलेल्या खात्याने लॉगिन करा.",
+ "Saved reports stay only in this device/browser; they are not uploaded to the server.": "सेव्ह केलेले अहवाल फक्त याच डिव्हाइसमध्ये राहतात; ते सर्व्हरवर अपलोड होत नाहीत.",
+ "Saved Reports": "सेव्ह केलेले अहवाल",
+ "Logout": "लॉगआउट",
+ "Employee Management": "कर्मचारी व्यवस्थापन",
+ "Create Employee": "कर्मचारी तयार करा",
+ "Employee User ID": "कर्मचारी वापरकर्ता आयडी",
+ "e.g. emp01": "उदा. emp01",
+ "Employee Name": "कर्मचाऱ्याचे नाव",
+ "Enter employee name": "कर्मचाऱ्याचे नाव टाका",
+ "Temporary Password": "तात्पुरता पासवर्ड",
+ "Minimum 12 characters": "किमान १२ अक्षरे",
+ "Refresh Employee List": "कर्मचारी यादी रिफ्रेश करा",
+ "Registered Employees": "नोंदणीकृत कर्मचारी",
+ "1. Site Information": "१. साइट माहिती",
+ "Date": "तारीख",
+ "Site ID": "साइट आयडी",
+ "Enter Site ID": "साइट आयडी टाका",
+ "Site Name": "साइटचे नाव",
+ "Enter site name": "साइटचे नाव टाका",
+ "Location": "ठिकाण",
+ "Village / Taluka / District": "गाव / तालुका / जिल्हा",
+ "Work Status": "कामाची स्थिती",
+ "In Progress": "सुरू आहे",
+ "Completed": "पूर्ण झाले",
+ "Pending": "प्रलंबित",
+ "On Hold": "थांबवले",
+ "Site Information / Work Description": "साइट माहिती / कामाचे वर्णन",
+ "Write today's work details...": "आजच्या कामाचा तपशील लिहा...",
+ "2. Material Details & Cost": "२. साहित्य तपशील व खर्च",
+ "Material name": "साहित्याचे नाव",
+ "Qty": "प्रमाण",
+ "Quantity": "प्रमाण",
+ "Rate": "दर",
+ "Rate (₹)": "दर (₹)",
+ "e.g. Cable": "उदा. केबल",
+ "Remove row": "ओळ काढा",
+ "+ Add Material": "+ साहित्य जोडा",
+ "Total Material Cost": "एकूण साहित्य खर्च",
+ "3. Site Photos": "३. साइट फोटो",
+ "Take photo or choose from gallery": "फोटो काढा किंवा गॅलरीतून निवडा",
+ "On mobile, your phone may offer Camera or Gallery. Photos are attached to this report in this browser.": "मोबाइलवर कॅमेरा किंवा गॅलरी असा पर्याय मिळू शकतो. फोटो या ब्राउझरमध्ये या अहवालाशी जोडले जातात.",
+ "4. Save & Share Report": "४. अहवाल सेव्ह व शेअर करा",
+ "Remarks": "शेरा",
+ "Any additional remarks...": "काही अतिरिक्त शेरा...",
+ "Prepared By": "तयार करणारा",
+ "Name / Employee ID": "नाव / कर्मचारी आयडी",
+ "Save Daily Report": "दैनिक अहवाल सेव्ह करा",
+ "Print / Save as PDF": "प्रिंट / PDF म्हणून सेव्ह करा",
+ "Share Report": "अहवाल शेअर करा",
+ "Clear Form": "फॉर्म साफ करा",
+ "SIYA • DAILY REPORT": "SIYA • दैनिक अहवाल",
+ "Enter User ID and Password.": "वापरकर्ता आयडी आणि पासवर्ड टाका.",
+ "Logging in...": "लॉगिन होत आहे...",
+ "Login failed": "लॉगिन अयशस्वी",
+ "Please select the correct login type.": "कृपया योग्य लॉगिन प्रकार निवडा.",
+ "Welcome, {name} ({role})": "स्वागत, {name} ({role})",
+ "Request failed ({n})": "विनंती अयशस्वी ({n})",
+ "Loading employees...": "कर्मचारी लोड होत आहेत...",
+ "No employees created yet.": "अजून कोणताही कर्मचारी तयार केलेला नाही.",
+ "Status: {s}": "स्थिती: {s}",
+ "Active": "सक्रिय",
+ "Inactive": "निष्क्रिय",
+ "Enter User ID, employee name, and a password of at least 12 characters.": "वापरकर्ता आयडी, कर्मचाऱ्याचे नाव आणि किमान १२ अक्षरांचा पासवर्ड टाका.",
+ "Creating employee...": "कर्मचारी तयार होत आहे...",
+ "Employee created successfully.": "कर्मचारी यशस्वीरीत्या तयार झाला.",
+ "Please enter Site ID and Employee Name.": "कृपया साइट आयडी आणि कर्मचाऱ्याचे नाव टाका.",
+ "Report saved successfully on this device.": "अहवाल या डिव्हाइसवर यशस्वीरीत्या सेव्ह झाला.",
+ "Could not save. Browser storage may be full.": "सेव्ह करता आले नाही. ब्राउझर स्टोरेज भरलेले असू शकते.",
+ "No Site ID": "साइट आयडी नाही",
+ "No saved reports yet.": "अजून कोणताही अहवाल सेव्ह केलेला नाही.",
+ "View / Print": "पहा / प्रिंट",
+ "Delete": "हटवा",
+ "Delete this saved report?": "हा सेव्ह केलेला अहवाल हटवायचा?",
+ "Loaded saved report. Photos are not restored from a saved report in this prototype.": "सेव्ह केलेला अहवाल लोड केला. या आवृत्तीत फोटो परत येत नाहीत.",
+ "SIYA DAILY REPORT": "SIYA दैनिक अहवाल",
+ "Site": "साइट",
+ "Status": "स्थिती",
+ "Work": "काम",
+ "Material Total": "साहित्य एकूण",
+ "Report text copied. You can paste it in WhatsApp.": "अहवालाचा मजकूर कॉपी झाला. तो WhatsApp मध्ये पेस्ट करू शकता.",
+ "Employee Reports": "कर्मचारी अहवाल",
+ "Date (optional)": "तारीख (ऐच्छिक)",
+ "Load Reports": "अहवाल लोड करा",
+ "Show All": "सर्व दाखवा",
+ "Loading reports...": "अहवाल लोड होत आहेत...",
+ "No reports received yet.": "अजून कोणताही अहवाल मिळालेला नाही.",
+ "View": "पहा",
+ "Hide": "लपवा",
+ "Photos: {n}": "फोटो: {n}",
+ "Photos": "फोटो",
+ "Materials": "साहित्य",
+ "Total": "एकूण",
+ "Employee ID": "कर्मचारी आयडी",
+ "Received": "मिळाला",
+ "Remove photo": "फोटो काढा",
+ "Maximum {n} photos allowed.": "जास्तीत जास्त {n} फोटो चालतील.",
+ "Preparing photos...": "फोटो तयार होत आहेत...",
+ "Uploading report...": "अहवाल पाठवत आहे...",
+ "Report saved and sent to Admin.": "अहवाल सेव्ह झाला आणि ॲडमिनकडे पाठवला.",
+ "Report saved on this device, but not sent to Admin yet. Tap Upload in Saved Reports when internet is available.": "अहवाल या डिव्हाइसवर सेव्ह झाला, पण ॲडमिनकडे अजून गेला नाही. इंटरनेट असताना \"सेव्ह केलेले अहवाल\" मध्ये \"पाठवा\" दाबा.",
+ "Report sent to Admin. (Could not keep a copy on this device.)": "अहवाल ॲडमिनकडे गेला. (या डिव्हाइसवर प्रत ठेवता आली नाही.)",
+ "Could not send and device storage is full. Please check internet and try again.": "अहवाल पाठवता आला नाही आणि डिव्हाइसमध्ये जागा नाही. इंटरनेट तपासून पुन्हा प्रयत्न करा.",
+ "Sent to Admin": "ॲडमिनकडे पाठवला",
+ "Not sent yet": "अजून पाठवलेला नाही",
+ "Upload": "पाठवा",
+ "Pending reports sent: {n}": "प्रलंबित अहवाल पाठवले: {n}",
+ "Upload failed. Check internet and try again.": "पाठवता आले नाही. इंटरनेट तपासून पुन्हा प्रयत्न करा.",
+ "Could not read photo": "फोटो वाचता आला नाही",
+ "Preparing photos {a}/{b}...": "फोटो तयार होत आहेत {a}/{b}...",
+ "Sending photos {a}/{b}...": "फोटो पाठवत आहे {a}/{b}...",
+ "Show more photos": "आणखी फोटो दाखवा",
+ "Show password": "पासवर्ड दाखवा",
+ "Work Type": "कामाचा प्रकार",
+ "Civil": "सिव्हिल",
+ "Electric": "इलेक्ट्रिक",
+ "Height": "उंचीवरील काम",
+ "Other": "इतर",
+ "Installation": "इन्स्टॉलेशन",
+ "Other (write here)": "इतर (येथे लिहा)",
+ "Search site or employee": "साइट किंवा कर्मचारी शोधा",
+ "Reports: {n} • Today: {d} • Total: ₹ {c}": "अहवाल: {n} • आज: {d} • एकूण: ₹ {c}",
+ "Installation done": "इन्स्टॉलेशन",
+ "Supervisor Name": "सुपरवायझरचे नाव",
+ "Enter supervisor name": "सुपरवायझरचे नाव टाका",
+ "Supervisor": "सुपरवायझर",
+ "Auditor Details": "ऑडिटर तपशील",
+ "Auditor Name": "ऑडिटरचे नाव",
+ "Enter auditor name": "ऑडिटरचे नाव टाका",
+ "Auditor Phone": "ऑडिटरचा फोन",
+ "Phone number": "फोन नंबर",
+ "WhatsApp / Share": "WhatsApp / शेअर",
+ "PDF": "PDF",
+ "Excel": "Excel",
+ "Excel (all shown)": "Excel (दिसणारे सर्व)",
+ "Preparing file...": "फाइल तयार होत आहे...",
+ "Could not create file. Check internet.": "फाइल बनवता आली नाही. इंटरनेट तपासा.",
+ "Session expired. Please login again.": "सत्र संपले आहे. कृपया पुन्हा लॉगिन करा.",
+ "Edit Report": "अहवाल सुधारा",
+ "Edit": "सुधारा",
+ "Save": "सेव्ह करा",
+ "Cancel": "रद्द करा",
+ "Verify": "तपासा",
+ "Send OTP": "OTP पाठवा",
+ "Enter 6-digit OTP": "६ अंकी OTP टाका",
+ "Admin OTP": "ॲडमिन OTP",
+ "OTP is needed for admin changes. It will be sent to the admin email.": "ॲडमिन बदलांसाठी OTP लागतो. तो ॲडमिनच्या ईमेलवर पाठवला जाईल.",
+ "Share photos": "फोटो शेअर करा",
+ "Message auditor": "ऑडिटरला मेसेज",
+ "Email TSP": "TSP ला ईमेल",
+ "Report updated.": "अहवाल सुधारला.",
+ "Email sent.": "ईमेल पाठवला.",
+ "TSP email": "TSP ईमेल",
+ "Invalid email": "ईमेल चुकीचा आहे",
+ "Invalid phone": "फोन नंबर चुकीचा आहे",
+ "Hello": "नमस्कार",
+ "Set TSP first (Edit).": "आधी TSP टाका (सुधारा).",
+ "From": "पासून",
+ "To": "पर्यंत",
+ "Month": "महिना",
+ "Select TSP": "TSP निवडा",
+ "All TSP": "सर्व TSP",
+ "PDF (all shown)": "PDF (दिसणारे सर्व)",
+ "WhatsApp (all shown)": "WhatsApp (दिसणारे सर्व)",
+ "Reports": "अहवाल",
+ "All": "सर्व",
+ "Cancelled": "रद्द केले",
+ "Share": "शेअर",
+ "OTP sent. Check the admin email.": "OTP पाठवला. ॲडमिनचा ईमेल पाहा.",
+ "Manage Lists": "याद्या व्यवस्थापन",
+ "TSP list (one per line)": "TSP यादी (प्रत्येक ओळीत एक)",
+ "Installation items (one per line)": "इन्स्टॉलेशन यादी (प्रत्येक ओळीत एक)",
+ "Lists saved.": "याद्या सेव्ह झाल्या.",
+ "Report": "रिपोर्ट",
+ "Open / Share": "उघडा / शेअर",
+ "PDF is larger than 5 MB.": "PDF ५ MB पेक्षा मोठी आहे.",
+ "GSM photos or PDF": "GSM फोटो किंवा PDF"
+};
+let lang='mr';
+try{lang=localStorage.getItem('siyaLang')||'mr';}catch(e){}
+function t(s,p){
+    let v=(lang==='mr'&&MR[s])||s;
+    if(p){v=v.replace(/\{(\w+)\}/g,(m,k)=>k in p?((k==='role'||k==='s')?t(p[k]):p[k]):m);}
+    return v;
+}
+function setMsg(id,en,p){
+    const el=$(id);
+    el.dataset.msg=en;
+    if(p)el.dataset.p=JSON.stringify(p);else delete el.dataset.p;
+    el.textContent=t(en,p);
+}
+function setRaw(id,text){
+    const el=$(id);
+    delete el.dataset.msg;delete el.dataset.p;
+    el.textContent=text;
+}
+const SKIP_SEL='#welcome,#loginMessage,#employeeMessage,#saveMessage,#totalCost,#employeesList,#adminSummary,#adminReportsList,#reportsList,script,style';
+function translateTree(root){
+    root.querySelectorAll('*').forEach(el=>{
+        if(el.closest(SKIP_SEL))return;
+        if(el.children.length===0){
+            if(el.dataset.en===undefined){
+                const x=el.textContent.trim();
+                if(x&&MR[x]!==undefined)el.dataset.en=x;
+            }
+            if(el.dataset.en!==undefined)el.textContent=t(el.dataset.en);
+        }
+        for(const a of ['placeholder','aria-label']){
+            const dk='data-en-'+a;
+            let en=el.getAttribute(dk);
+            if(en===null){
+                const v=el.getAttribute(a);
+                if(v&&MR[v]!==undefined){en=v;el.setAttribute(dk,v);}
+            }
+            if(en!==null)el.setAttribute(a,t(en));
+        }
+    });
+}
+let employeesCache=null;
+function applyLang(){
+    document.documentElement.lang=lang;
+    document.title=t('SIYA Daily Report');
+    translateTree(document.body);
+    document.querySelectorAll('[data-msg]').forEach(el=>{
+        el.textContent=t(el.dataset.msg,el.dataset.p?JSON.parse(el.dataset.p):undefined);
+    });
+    $('langBtn').textContent=lang==='mr'?'English':'मराठी';
+    if(!$('reportsSection').classList.contains('hidden'))renderReports();
+    renderEmployees();
+    renderAdminReports();
+}
+
+
+let role='';
+let authToken='';
+let selectedPhotos=[];
+let currentUserId='';
+let currentUser=null;
+let adminReports=null;
+let syncing=false;
+let draftClientId=null;
+let adminShown=[];
+let changeToken='';
+let changeUntil=0;
+const MAX_PHOTOS=55;
+
+const today=new Date().toISOString().slice(0,10);
+$('reportDate').value=today;
+
+
+// LOGIN CONNECTED TO NODE.JS BACKEND
+
+function enterApp(data){
+    role=data.user.role;
+    authToken=data.token;
+    currentUserId=data.user.userId||'';
+    currentUser={name:data.user.name,userId:data.user.userId};
+    $('loginPanel').classList.add('hidden');
+    $('appPanel').classList.remove('hidden');
+    setMsg('welcome','Welcome, {name} ({role})',{name:data.user.name,role:data.user.role});
+    loadOptions();
+    $('reportForm').classList.toggle('hidden',role==='admin');
+    $('showReports').classList.toggle('hidden',role==='admin');
+    $('adminPanel').classList.toggle('hidden',role!=='admin');
+    if(role==='admin'){loadEmployees();loadAdminReports();}
+    if(role==='employee'){
+        $('employeeName').value=data.user.name;
+        $('reportBy').value=data.user.userId;
+        syncPending(false);
+    }
+}
+function saveSession(data){try{localStorage.setItem('siyaSession',JSON.stringify({token:data.token,user:data.user}));}catch(e){}}
+function clearSession(){try{localStorage.removeItem('siyaSession');}catch(e){}}
+
+async function login(){
+
+    const selectedRole=$('loginRole').value.toLowerCase();
+    const userId=$('loginId').value.trim();
+    const password=$('loginPass').value;
+
+    if(!userId || !password){
+        setMsg('loginMessage','Enter User ID and Password.');
+        return;
+    }
+
+    setMsg('loginMessage','Logging in...');
+    $('loginBtn').disabled=true;
+
+    try{
+
+        const response=await fetch(`${API_BASE}/api/auth/login`,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                userId,
+                password
+            })
+        });
+
+        const data=await response.json();
+
+        if(!response.ok){
+            throw new Error(data.message||t('Login failed'));
+        }
+
+        if(!data.user || data.user.role!==selectedRole){
+            throw new Error(t('Please select the correct login type.'));
+        }
+
+        saveSession(data);
+        enterApp(data);
+
+        $('loginPass').value='';
+        setRaw('loginMessage','');
+
+    }catch(error){
+
+        setRaw('loginMessage',error.message);
+
+    }finally{
+
+        $('loginBtn').disabled=false;
+
+    }
+
+}
+
+$('loginBtn').addEventListener('click',login);
+
+
+
+// ADMIN EMPLOYEE MANAGEMENT
+const API_BASE = 'https://siya-report-1.onrender.com';
+
+async function adminRequest(path, options = {}) {
+    const response = await fetch(`${API_BASE}${path}`, {
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`,
+            ...(options.headers || {})
+        }
+    });
+    const data = await response.json().catch(() => ({}));
+    if (response.status === 401) { doLogout(); setMsg('loginMessage','Session expired. Please login again.'); }
+    if (!response.ok) { const e = new Error(data.message || t('Request failed ({n})',{n:response.status})); e.code = data.code; throw e; }
+    return data;
+}
+
+function renderEmployees() {
+    if (employeesCache === null) return;
+    const box = $('employeesList');
+    if (!employeesCache.length) { setMsg('employeesList', 'No employees created yet.'); return; }
+    delete box.dataset.msg; delete box.dataset.p;
+    box.innerHTML = '';
+    employeesCache.forEach(employee => {
+        const item = document.createElement('div');
+        item.className = 'report-item';
+        const title = document.createElement('strong');
+        title.textContent = `${employee.name} (${employee.userId})`;
+        const status = document.createElement('div');
+        status.className = 'hint';
+        status.textContent = t('Status: {s}', { s: employee.active ? 'Active' : 'Inactive' });
+        item.append(title, status);
+        box.appendChild(item);
+    });
+}
+
+async function loadEmployees() {
+    if (role !== 'admin' || !authToken) return;
+    setMsg('employeesList', 'Loading employees...');
+    try {
+        const data = await adminRequest('/api/employees');
+        employeesCache = data.employees || [];
+        renderEmployees();
+    } catch (error) {
+        setRaw('employeesList', error.message);
+    }
+}
+
+$('createEmployeeBtn').addEventListener('click', async () => {
+    const userId = $('newEmployeeId').value.trim();
+    const name = $('newEmployeeName').value.trim();
+    const password = $('newEmployeePassword').value;
+    if (!userId || !name || password.length < 12) {
+        setMsg('employeeMessage','Enter User ID, employee name, and a password of at least 12 characters.');
+        return;
+    }
+    $('createEmployeeBtn').disabled = true;
+    setMsg('employeeMessage','Creating employee...');
+    try {
+        const data = await adminChange('/api/employees', {
+            method: 'POST',
+            body: JSON.stringify({ userId, name, password })
+        });
+        if (data.message) setRaw('employeeMessage', data.message); else setMsg('employeeMessage', 'Employee created successfully.');
+        $('newEmployeeId').value = '';
+        $('newEmployeeName').value = '';
+        $('newEmployeePassword').value = '';
+        await loadEmployees();
+    } catch (error) {
+        setRaw('employeeMessage', error.message);
+    } finally {
+        $('createEmployeeBtn').disabled = false;
+    }
+});
+
+$('refreshEmployeesBtn').addEventListener('click', loadEmployees);
+
+
+// LOGOUT
+
+function doLogout(){
+
+    clearSession();
+    changeToken='';changeUntil=0;
+    role='';
+    authToken='';
+    currentUserId='';
+    currentUser=null;
+    adminReports=null;
+    employeesCache=null;
+    $('adminPanel').classList.add('hidden');
+
+    $('appPanel').classList.add('hidden');
+    $('loginPanel').classList.remove('hidden');
+
+    $('loginId').value='';
+    $('loginPass').value='';
+    setRaw('loginMessage','');
+
+}
+$('logoutBtn').addEventListener('click',doLogout);
+
+
+// CHECKBOXES, SHOW PASSWORD, GPS
+
+const MAX_GSM=20;
+let gsmSel=[];
+function showTab(tab){
+    document.querySelectorAll('.tab-report').forEach(c=>c.classList.toggle('hidden',tab!=='report'));
+    $('gsmCard').classList.toggle('hidden',tab!=='gsm');
+    document.querySelectorAll('#formTabs .tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+}
+document.querySelectorAll('#formTabs .tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+(function(){
+    let tx=0,ty=0;
+    const f=$('reportForm');
+    f.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+    f.addEventListener('touchend',e=>{
+        const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+        if(Math.abs(dx)>90&&Math.abs(dy)<50)showTab(dx<0?'gsm':'report');
+    },{passive:true});
+})();
+function renderGsm(){
+    const box=$('gsmList');box.innerHTML='';
+    gsmSel.forEach((f,i)=>{
+        const row=document.createElement('div');row.className='gsm-row';
+        const nm=document.createElement('span');
+        nm.textContent=`${f.type==='application/pdf'?'📄':'🖼️'} ${f.name} (${Math.round(f.size/1024)} KB)`;
+        const x=document.createElement('button');x.type='button';x.className='remove';x.textContent='×';
+        x.addEventListener('click',()=>{gsmSel.splice(i,1);renderGsm();});
+        row.append(nm,x);box.appendChild(row);
+    });
+}
+$('gsmFiles').addEventListener('change',e=>{
+    const files=Array.from(e.target.files||[]);e.target.value='';
+    files.forEach(f=>{
+        const pdf=f.type==='application/pdf';
+        if(!pdf&&!f.type.startsWith('image/'))return;
+        if(pdf&&f.size>5*1024*1024){alert(t('PDF is larger than 5 MB.'));return;}
+        if(gsmSel.length<MAX_GSM)gsmSel.push(f);
+    });
+    renderGsm();
+});
+const readB64=f=>new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>res(String(fr.result).split(',')[1]);fr.onerror=rej;fr.readAsDataURL(f);});
+
+let TSP_LIST=['Infratech','Rencom','Higlaj'];
+const FEATURE_EMAIL=false;   // e-mail to TSP: switch to true after e-mail is set up
+function syncTsp(){
+    const on=$('tspSel').value==='Other';
+    $('tspOther').classList.toggle('hidden',!on);
+    if(!on)$('tspOther').value='';
+}
+function setTsp(v){
+    if(!v){$('tspSel').value='';$('tspOther').value='';}
+    else if(TSP_LIST.includes(v)){$('tspSel').value=v;$('tspOther').value='';}
+    else{$('tspSel').value='Other';$('tspOther').value=v==='Other'?'':v;}
+    syncTsp();
+}
+$('tspSel').addEventListener('change',syncTsp);
+
+const DEFAULT_OPTIONS={tsp:['Infratech','Rencom','Higlaj'],installs:['DCDP','SMPS','SPS','HEXS','RACK','TX RACK','GSM']};
+let OPTIONS=DEFAULT_OPTIONS;
+try{const c=JSON.parse(localStorage.getItem('siyaOptions')||'null');if(c&&Array.isArray(c.tsp)&&Array.isArray(c.installs))OPTIONS=c;}catch(e){}
+
+function applyOptions(o){
+    OPTIONS=o;TSP_LIST=o.tsp.slice();
+    const keep=checkedVals('installs');
+    const box=$('installs');box.innerHTML='';
+    o.installs.concat(['Other']).forEach(v=>{
+        const lab=document.createElement('label');lab.className='chk';
+        const i=document.createElement('input');i.type='checkbox';i.value=v;i.checked=keep.includes(v);
+        const sp=document.createElement('span');
+        sp.textContent=v==='Other'?t('Other'):v;
+        if(v==='Other')sp.dataset.en='Other';
+        lab.append(i,sp);box.appendChild(lab);
+    });
+    const sel=$('tspSel'),cur=sel.value;sel.innerHTML='';
+    [['','Select TSP']].concat(o.tsp.map(v=>[v,v]),[['Other','Other']]).forEach(([v,l])=>{
+        const op=document.createElement('option');op.value=v;
+        if(v===''||v==='Other'){op.dataset.en=l;op.textContent=t(l);}else op.textContent=l;
+        sel.appendChild(op);
+    });
+    sel.value=cur;syncOther();syncTsp();
+    $('optTsp').value=o.tsp.join('\n');$('optInst').value=o.installs.join('\n');
+    renderAdminReports();
+}
+async function loadOptions(){
+    try{
+        const d=await adminRequest('/api/options');
+        if(Array.isArray(d.tsp)&&Array.isArray(d.installs)){
+            applyOptions({tsp:d.tsp,installs:d.installs});
+            try{localStorage.setItem('siyaOptions',JSON.stringify(OPTIONS));}catch(e){}
+        }
+    }catch(e){}
+}
+
+function checkedVals(id){return Array.from(document.querySelectorAll('#'+id+' input:checked')).map(c=>c.value);}
+function setChecks(id,vals){document.querySelectorAll('#'+id+' input').forEach(c=>{c.checked=(vals||[]).includes(c.value);});}
+function syncOther(){
+    [['workTypes','workOther'],['installs','installOther']].forEach(([g,o])=>{
+        const on=!!document.querySelector('#'+g+' input[value="Other"]:checked');
+        $(o).classList.toggle('hidden',!on);
+        if(!on)$(o).value='';
+    });
+}
+['workTypes','installs'].forEach(id=>$(id).addEventListener('change',syncOther));
+document.querySelectorAll('[data-showpw]').forEach(c=>c.addEventListener('change',()=>{$(c.dataset.showpw).type=c.checked?'text':'password';}));
+function getPos(){
+    return new Promise(res=>{
+        if(!navigator.geolocation)return res(null);
+        navigator.geolocation.getCurrentPosition(
+            p=>res({lat:+p.coords.latitude.toFixed(6),lng:+p.coords.longitude.toFixed(6)}),
+            ()=>res(null),{enableHighAccuracy:true,timeout:8000,maximumAge:60000});
+    });
+}
+
+// ADD MATERIAL ROW
+
+function addMaterial(name='',qty='',rate='',rrl=''){
+
+    const row=document.createElement('div');
+    row.className='material-row';
+
+    row.innerHTML=`
+        <input class="mat-name" placeholder="e.g. Cable" aria-label="Material name">
+        <input class="mat-qty" type="number" min="0" step="any" placeholder="Qty" aria-label="Quantity">
+        <input class="mat-rate" type="number" min="0" step="any" placeholder="Rate" aria-label="Rate">
+        <button type="button" class="remove" aria-label="Remove row">×</button>
+    `;
+
+    row.querySelector('.mat-name').value=name;
+    row.querySelector('.mat-qty').value=qty;
+    row.querySelector('.mat-rate').value=rate;
+
+    row.addEventListener('input',calcTotal);
+
+    row.querySelector('.remove').addEventListener('click',()=>{
+        row.remove();
+        calcTotal();
+    });
+
+    $('materialRows').appendChild(row);
+    translateTree(row);
+
+    calcTotal();
+
+}
+
+
+// CALCULATE TOTAL
+
+function calcTotal(){
+
+    let sum=0;
+
+    document.querySelectorAll('.material-row').forEach(row=>{
+
+        const qty=Number(row.querySelector('.mat-qty').value)||0;
+        const rate=Number(row.querySelector('.mat-rate').value)||0;
+
+        sum+=qty*rate;
+
+    });
+
+    $('totalCost').textContent='₹ '+sum.toFixed(2);
+
+}
+
+$('addMaterial').addEventListener('click',()=>addMaterial());
+
+addMaterial();
+
+
+// PHOTOS (gallery or camera)
+
+function renderPhotoPreview(){
+    $('photoPreview').innerHTML='';
+    selectedPhotos.forEach((file,i)=>{
+        const wrap=document.createElement('div');
+        wrap.className='thumb';
+        const img=document.createElement('img');
+        img.alt=file.name;
+        img.src=URL.createObjectURL(file);
+        img.onload=()=>URL.revokeObjectURL(img.src);
+        const x=document.createElement('button');
+        x.type='button';
+        x.className='thumb-x';
+        x.textContent='×';
+        x.setAttribute('aria-label',t('Remove photo'));
+        x.addEventListener('click',()=>{
+            selectedPhotos.splice(i,1);
+            renderPhotoPreview();
+        });
+        wrap.append(img,x);
+        $('photoPreview').appendChild(wrap);
+    });
+}
+
+$('photos').addEventListener('change',e=>{
+    const files=Array.from(e.target.files||[]);
+    e.target.value='';
+    const room=Math.max(MAX_PHOTOS-selectedPhotos.length,0);
+    if(files.length>room)setMsg('saveMessage','Maximum {n} photos allowed.',{n:MAX_PHOTOS});
+    selectedPhotos=selectedPhotos.concat(files.slice(0,room));
+    renderPhotoPreview();
+});
+
+// Shrink photo before upload (keeps size small for mobile data)
+function fileToJpeg(file,maxDim=1280,quality=0.7,stamp=''){
+    return new Promise((resolve,reject)=>{
+        const url=URL.createObjectURL(file);
+        const img=new Image();
+        img.onload=()=>{
+            let w=img.naturalWidth,h=img.naturalHeight;
+            const s=Math.min(1,maxDim/Math.max(w,h));
+            w=Math.round(w*s);h=Math.round(h*s);
+            const c=document.createElement('canvas');
+            c.width=w;c.height=h;
+            const ctx=c.getContext('2d');
+            ctx.drawImage(img,0,0,w,h);
+            if(stamp){
+                const fs=Math.max(14,Math.round(w/42));
+                ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillRect(0,h-fs*1.8,w,fs*1.8);
+                ctx.fillStyle='#fff';ctx.font=`bold ${fs}px sans-serif`;ctx.fillText(stamp,fs*.5,h-fs*.55);
+            }
+            URL.revokeObjectURL(url);
+            resolve(c.toDataURL('image/jpeg',quality));
+        };
+        img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error(t('Could not read photo')));};
+        img.src=url;
+    });
+}
+
+
+// GET REPORT DATA
+
+function getFormData(){
+
+    const materials=Array.from(document.querySelectorAll('.material-row')).map(row=>({
+
+        name:row.querySelector('.mat-name').value,
+
+        qty:Number(row.querySelector('.mat-qty').value)||0,
+
+        rate:Number(row.querySelector('.mat-rate').value)||0,
+
+
+        amount:
+        (Number(row.querySelector('.mat-qty').value)||0)*
+        (Number(row.querySelector('.mat-rate').value)||0)
+
+    })).filter(x=>x.name||x.qty||x.rate);
+
+    return {
+
+        date:$('reportDate').value,
+        siteId:$('siteId').value,
+        siteName:$('siteName').value,
+        location:$('location').value,
+        employeeName:$('employeeName').value,
+        status:$('workStatus').value,
+        siteInfo:$('siteInfo').value,
+        materials,
+        workTypes:checkedVals('workTypes'),
+        workOther:$('workOther').value.trim(),
+        installs:checkedVals('installs'),
+        installOther:$('installOther').value.trim(),
+        tsp:(()=>{const v=$('tspSel').value;return v==='Other'?($('tspOther').value.trim()||'Other'):v;})(),
+        rrlNo:$('rrlNo').value.trim(),
+        auditorName:$('auditorName').value.trim(),
+        auditorPhone:$('auditorPhone').value.trim(),
+
+        total:materials.reduce((s,m)=>s+m.amount,0),
+
+        remarks:$('remarks').value,
+        reportBy:$('reportBy').value,
+
+        photoNames:selectedPhotos.map(f=>f.name),
+
+        savedAt:new Date().toISOString()
+
+    };
+
+}
+
+
+// LOCAL STORAGE HELPERS
+
+function readLocal(){
+    try{return JSON.parse(localStorage.getItem('siyaReports')||'[]');}catch(e){return [];}
+}
+function writeLocal(list){
+    localStorage.setItem('siyaReports',JSON.stringify(list));
+}
+
+
+// UPLOAD REPORT TO SERVER (admin can then see it)
+
+async function apiPost(path,body){
+    const ctrl=new AbortController();
+    const timer=setTimeout(()=>ctrl.abort(),90000);
+    try{
+        const response=await fetch(`${API_BASE}${path}`,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization':`Bearer ${authToken}`
+            },
+            body:JSON.stringify(body),
+            signal:ctrl.signal
+        });
+        const data=await response.json().catch(()=>({}));
+        if(response.status===401){doLogout();setMsg('loginMessage','Session expired. Please login again.');}
+        if(!response.ok)throw new Error(data.message||t('Request failed ({n})',{n:response.status}));
+        return data;
+    }finally{
+        clearTimeout(timer);
+    }
+}
+
+async function uploadReport(report,onProgress){
+    const photos=report.photos||[];
+    const meta={...report};
+    delete meta.photos;
+    delete meta.gsm;
+    meta.photoCount=photos.length;
+    const gsm=report.gsm||[];
+    meta.gsmCount=gsm.length;
+    await apiPost('/api/reports',meta);
+    const CH=4;
+    for(let i=0;i<photos.length;i+=CH){
+        if(onProgress)onProgress(Math.min(i+CH,photos.length),photos.length);
+        await apiPost(`/api/reports/${encodeURIComponent(report.clientId)}/photos`,{start:i,photos:photos.slice(i,i+CH)});
+    }
+    const CS=600000;
+    for(let k=0;k<gsm.length;k++){
+        const f=gsm[k],total=Math.ceil(f.b64.length/CS);
+        for(let c=0;c<total;c+=3){
+            const chunks=[];
+            for(let q=c;q<Math.min(c+3,total);q++)chunks.push(f.b64.slice(q*CS,(q+1)*CS));
+            await apiPost(`/api/reports/${encodeURIComponent(report.clientId)}/gsm`,{idx:k,name:f.name,mime:f.mime,chunkCount:total,start:c,chunks});
+        }
+    }
+}
+
+
+// RESET FORM FIELDS
+
+function resetFormFields(){
+    gsmSel=[];renderGsm();showTab('report');
+    document.querySelectorAll('#workTypes input,#installs input').forEach(c=>c.checked=false);
+    syncOther();
+    syncTsp();
+    draftClientId=null;
+    $('reportDate').value=today;
+    selectedPhotos=[];
+    renderPhotoPreview();
+    $('photos').value='';
+    $('materialRows').innerHTML='';
+    addMaterial();
+    if(role==='employee'&&currentUser){
+        $('employeeName').value=currentUser.name||'';
+        $('reportBy').value=currentUser.userId||'';
+    }
+}
+
+
+// SAVE REPORT (on device + send to Admin)
+
+$('reportForm').addEventListener('submit',async e=>{
+
+    e.preventDefault();
+
+    const report=getFormData();
+
+    if(!report.siteId||!report.employeeName){
+        setMsg('saveMessage','Please enter Site ID and Employee Name.');
+        return;
+    }
+
+    const btn=$('reportForm').querySelector('button[type="submit"]');
+    btn.disabled=true;
+
+    try{
+
+        setMsg('saveMessage','Preparing photos...');
+
+        if(!draftClientId)draftClientId=`${Date.now()}-${Math.random().toString(36).slice(2,10)}`;
+        report.clientId=draftClientId;
+        report.owner=currentUserId;
+        report.photoCount=selectedPhotos.length;
+        const pos=await getPos();
+        report.gps=pos;
+        report.capturedAt=new Date().toISOString();
+        const stamp=new Date().toLocaleString()+(pos?` | ${pos.lat}, ${pos.lng}`:'');
+        const many=selectedPhotos.length>20;
+        report.photos=[];
+        for(let i=0;i<selectedPhotos.length;i++){
+            setMsg('saveMessage','Preparing photos {a}/{b}...',{a:i+1,b:selectedPhotos.length});
+            report.photos.push(await fileToJpeg(selectedPhotos[i],many?1024:1280,many?0.6:0.7,stamp));
+        }
+
+        report.gsm=[];
+        for(let i=0;i<gsmSel.length;i++){
+            const f=gsmSel[i];
+            if(f.type==='application/pdf')report.gsm.push({name:f.name,mime:'application/pdf',b64:await readB64(f)});
+            else report.gsm.push({name:f.name.replace(/\.\w+$/,'')+'.jpg',mime:'image/jpeg',b64:(await fileToJpeg(f,1280,0.7,'')).split(',')[1]});
+        }
+        report.gsmCount=report.gsm.length;
+
+        setMsg('saveMessage','Uploading report...');
+
+        let sent=false;
+        try{
+            await uploadReport(report,(a,b)=>setMsg('saveMessage','Sending photos {a}/{b}...',{a,b}));
+            sent=true;
+        }catch(err){
+            console.warn('Upload failed',err);
+        }
+
+        const local={...report,synced:sent};
+        if(sent){delete local.photos;delete local.gsm;}
+
+        let kept=true;
+        try{
+            const list=readLocal();
+            list.unshift(local);
+            writeLocal(list);
+        }catch(err){
+            kept=false;
+        }
+
+        if(sent&&kept){
+            setMsg('saveMessage','Report saved and sent to Admin.');
+        }else if(sent){
+            setMsg('saveMessage','Report sent to Admin. (Could not keep a copy on this device.)');
+        }else if(kept){
+            setMsg('saveMessage','Report saved on this device, but not sent to Admin yet. Tap Upload in Saved Reports when internet is available.');
+        }else{
+            setMsg('saveMessage','Could not send and device storage is full. Please check internet and try again.');
+        }
+
+        if(sent||kept){
+            $('reportForm').reset();
+            resetFormFields();
+        }
+
+        renderReports();
+
+    }catch(err){
+
+        setRaw('saveMessage',err.message);
+
+    }finally{
+
+        btn.disabled=false;
+
+    }
+
+});
+
+
+// RETRY REPORTS THAT COULD NOT BE SENT
+
+async function syncPending(manual){
+
+    if(role!=='employee'||!authToken||syncing)return;
+
+    syncing=true;
+
+    try{
+
+        const pending=readLocal().filter(r=>r.synced===false&&r.owner===currentUserId);
+
+        if(!pending.length)return;
+
+        if(manual)setMsg('saveMessage','Uploading report...');
+
+        let ok=0,fail=0;
+
+        for(const r of pending){
+            try{
+                await uploadReport(r);
+                ok++;
+                const list=readLocal();
+                const x=list.find(y=>y.clientId===r.clientId);
+                if(x){x.synced=true;delete x.photos;}
+                try{writeLocal(list);}catch(err){}
+            }catch(err){
+                fail++;
+            }
+        }
+
+        renderReports();
+
+        if(ok)setMsg('saveMessage','Pending reports sent: {n}',{n:ok});
+        else if(fail&&manual)setMsg('saveMessage','Upload failed. Check internet and try again.');
+
+    }finally{
+
+        syncing=false;
+
+    }
+
+}
+
+window.addEventListener('online',()=>syncPending(false));
+
+
+// DISPLAY SAVED REPORTS
+
+function renderReports(){
+
+    const list=readLocal().filter(r=>!r.owner||r.owner===currentUserId);
+
+    delete $('reportsList').dataset.msg;
+    $('reportsList').innerHTML='';
+
+    if(!list.length){
+        setMsg('reportsList','No saved reports yet.');
+        return;
+    }
+
+    list.forEach(r=>{
+
+        const pending=r.synced===false;
+        const badge=r.synced===true
+            ?`<span class="badge ok">✓ ${escapeHtml(t('Sent to Admin'))}</span>`
+            :(pending?`<span class="badge wait">⏳ ${escapeHtml(t('Not sent yet'))}</span>`:'');
+
+        const div=document.createElement('div');
+
+        div.className='report-item';
+
+        div.innerHTML=`
+            <strong>${escapeHtml(r.siteId||t('No Site ID'))}</strong>
+            — ${escapeHtml(r.date||'')}
+            <br>
+            <span class="hint">
+                ${escapeHtml(r.employeeName||'')}
+                • ${escapeHtml(t(r.status||''))}
+                • ₹ ${(r.total||0).toFixed(2)}
+            </span>
+            <div>${badge}</div>
+            <div class="actions no-print">
+                ${pending?`<button class="primary" type="button" data-act="upload">${escapeHtml(t('Upload'))}</button>`:''}
+                <button class="secondary" type="button" data-act="view">${escapeHtml(t('View / Print'))}</button>
+                <button class="danger" type="button" data-act="del">${escapeHtml(t('Delete'))}</button>
+            </div>
+        `;
+
+        div.querySelector('[data-act="view"]').onclick=()=>fillReportView(r);
+
+        const up=div.querySelector('[data-act="upload"]');
+        if(up)up.onclick=async()=>{
+            up.disabled=true;
+            await syncPending(true);
+        };
+
+        div.querySelector('[data-act="del"]').onclick=()=>{
+
+            if(confirm(t('Delete this saved report?'))){
+
+                writeLocal(readLocal().filter(x=>!(x.savedAt===r.savedAt&&x.clientId===r.clientId)));
+
+                renderReports();
+
+            }
+
+        };
+
+        $('reportsList').appendChild(div);
+
+    });
+
+}
+
+
+// HTML ESCAPE
+
+function escapeHtml(s){
+
+    return String(s??'').replace(/[&<>"']/g,c=>({
+
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;',
+        "'":'&#39;'
+
+    }[c]));
+
+}
+
+
+// LOAD SAVED REPORT
+
+function fillReportView(r){
+
+    $('reportDate').value=r.date||'';
+    $('siteId').value=r.siteId||'';
+    $('siteName').value=r.siteName||'';
+    $('location').value=r.location||'';
+    $('employeeName').value=r.employeeName||'';
+    $('workStatus').value=r.status||'In Progress';
+    $('siteInfo').value=r.siteInfo||'';
+    $('remarks').value=r.remarks||'';
+    $('reportBy').value=r.reportBy||'';
+    setChecks('workTypes',r.workTypes);setChecks('installs',r.installs);
+    $('workOther').value=r.workOther||'';$('installOther').value=r.installOther||'';syncOther();
+    setTsp(r.tsp);
+    $('rrlNo').value=r.rrlNo||'';$('auditorName').value=r.auditorName||'';$('auditorPhone').value=r.auditorPhone||'';
+
+    $('materialRows').innerHTML='';
+
+    (r.materials||[]).forEach(m=>{
+
+        addMaterial(m.name,m.qty,m.rate,m.rrl);
+
+    });
+
+    if(!(r.materials||[]).length){
+
+        addMaterial();
+
+    }
+
+    setMsg('saveMessage','Loaded saved report. Photos are not restored from a saved report in this prototype.');
+
+    window.scrollTo({
+        top:0,
+        behavior:'smooth'
+    });
+
+}
+
+
+// SHOW SAVED REPORTS
+
+$('showReports').addEventListener('click',()=>{
+
+    $('reportsSection').classList.toggle('hidden');
+
+    renderReports();
+
+    $('reportsSection').scrollIntoView({
+        behavior:'smooth'
+    });
+
+});
+
+
+// PRINT / SAVE PDF
+
+$('printBtn').addEventListener('click',()=>{
+
+    window.print();
+
+});
+
+
+// SHARE REPORT
+
+$('shareBtn').addEventListener('click',async()=>{
+
+    const r=getFormData();
+
+    const text=
+`${t('SIYA DAILY REPORT')}
+${t('Date')}: ${r.date}
+${t('Site ID')}: ${r.siteId}
+${t('Site')}: ${r.siteName}
+${t('Location')}: ${r.location}
+${t('Supervisor')}: ${r.employeeName}
+${t('Status')}: ${t(r.status)}
+${t('Work')}: ${r.siteInfo}
+${t('Material Total')}: ₹ ${r.total.toFixed(2)}
+${t('Remarks')}: ${r.remarks}`;
+
+    try{
+
+        if(navigator.share){
+
+            await navigator.share({
+                title:t('SIYA Daily Report'),
+                text
+            });
+
+        }else if(navigator.clipboard){
+
+            await navigator.clipboard.writeText(text);
+
+            alert(t('Report text copied. You can paste it in WhatsApp.'));
+
+        }else{
+
+            alert(text);
+
+        }
+
+    }catch(e){}
+
+});
+
+
+// CLEAR FORM
+
+$('clearBtn').addEventListener('click',()=>{
+
+    setTimeout(()=>{
+
+        resetFormFields();
+
+        setRaw('saveMessage','');
+
+    },0);
+
+});
+
+
+// ADMIN: SEE REPORTS SENT BY EMPLOYEES
+
+async function loadAdminReports(){
+    if(role!=='admin'||!authToken)return;
+    setMsg('adminReportsList','Loading reports...');
+    try{
+        const p=[];
+        if($('adminFrom').value)p.push('from='+encodeURIComponent($('adminFrom').value));
+        if($('adminTo').value)p.push('to='+encodeURIComponent($('adminTo').value));
+        const data=await adminRequest('/api/reports'+(p.length?'?'+p.join('&'):''));
+        adminReports=data.reports||[];
+        renderAdminReports();
+    }catch(err){
+        setRaw('adminReportsList',err.message);
+    }
+}
+
+function renderAdminReports(){
+    if(adminReports===null)return;
+    const box=$('adminReportsList');
+    const sel=$('adminTsp'),cur=sel.value;
+    const names=TSP_LIST.slice();
+    adminReports.forEach(r=>{if(r.tsp&&!names.includes(r.tsp))names.push(r.tsp);});
+    sel.innerHTML='';
+    [['',t('All TSP')]].concat(names.map(n=>[n,n])).forEach(([v,l])=>{const o=document.createElement('option');o.value=v;o.textContent=l;sel.appendChild(o);});
+    sel.value=cur;
+    const q=($('adminSearch').value||'').trim().toLowerCase();
+    const tf=sel.value;
+    const shown=adminReports.filter(r=>(!tf||(r.tsp||'')===tf)&&(!q||`${r.siteId} ${r.siteName} ${r.employeeName} ${r.employeeUserId} ${r.tsp} ${r.auditorName} ${r.rrlNo}`.toLowerCase().includes(q)));
+    adminShown=shown;
+    $('adminSummary').textContent=t('Reports: {n} • Today: {d} • Total: ₹ {c}',{n:shown.length,d:shown.filter(r=>r.date===today).length,c:shown.reduce((a,r)=>a+Number(r.total||0),0).toFixed(2)});
+    if(!shown.length){
+        setMsg('adminReportsList','No reports received yet.');
+        return;
+    }
+    delete box.dataset.msg;delete box.dataset.p;
+    box.innerHTML='';
+    shown.forEach(r=>{
+        const item=document.createElement('div');
+        item.className='report-item';
+        const title=document.createElement('strong');
+        title.textContent=`${r.siteId||t('No Site ID')} — ${r.date||''}${r.tsp?' • '+r.tsp:''}`;
+        const sub=document.createElement('div');
+        sub.className='hint';
+        sub.textContent=`${r.employeeName||''} • ${t(r.status||'')} • ₹ ${Number(r.total||0).toFixed(2)} • ${t('Photos: {n}',{n:r.photoCount||0})}`;
+        const actions=document.createElement('div');
+        actions.className='actions';
+        const btn=document.createElement('button');
+        btn.type='button';
+        btn.className='secondary';
+        btn.textContent=t('View');
+        const detail=document.createElement('div');
+        detail.className='detail hidden';
+        btn.addEventListener('click',()=>toggleAdminDetail(r,btn,detail));
+        actions.appendChild(btn);
+        item.append(title,sub,actions,detail);
+        box.appendChild(item);
+    });
+}
+
+async function loadGsm(detail,r){
+    const box=document.createElement('div');
+    const h=document.createElement('strong');
+    h.textContent=`GSM: ${r.gsmCount}`;
+    box.appendChild(h);
+    detail.appendChild(box);
+    try{
+        const files=(await adminRequest(`/api/reports/${encodeURIComponent(r.id)}/gsm`)).files||[];
+        files.forEach(f=>{
+            const row=document.createElement('div');row.className='gsm-row';
+            const pdf=f.mime==='application/pdf';
+            const nm=document.createElement('span');nm.textContent=`${pdf?'📄':'🖼️'} ${f.name}`;
+            const bt=document.createElement('button');bt.type='button';bt.className='secondary';
+            bt.textContent=t(pdf?'Open / Share':'View');
+            bt.addEventListener('click',async()=>{
+                bt.disabled=true;
+                try{
+                    const d=await adminRequest(`/api/reports/${encodeURIComponent(r.id)}/gsm/${f.idx}`);
+                    if(pdf)await shareFile(d.name,d.data,d.mime,d.name);
+                    else{$('lightbox').querySelector('img').src=`data:${d.mime};base64,${d.data}`;$('lightbox').classList.remove('hidden');}
+                }catch(err){alert(err.message);}
+                bt.disabled=false;
+            });
+            row.append(nm,bt);box.appendChild(row);
+        });
+    }catch(err){box.appendChild(document.createTextNode(err.message));}
+}
+
+function detailLine(parent,label,value){
+    if(value===undefined||value===null||value==='')return;
+    const d=document.createElement('div');
+    const b=document.createElement('strong');
+    b.textContent=label+': ';
+    d.append(b,document.createTextNode(String(value)));
+    parent.appendChild(d);
+}
+
+function buildAdminDetail(detail,r){
+    detail.innerHTML='';
+    addShareBar(detail,r);
+    if((r.gsmCount||0)>0)loadGsm(detail,r);
+    detailLine(detail,t('Date'),r.date);
+    detailLine(detail,t('Site ID'),r.siteId);
+    detailLine(detail,t('Site Name'),r.siteName);
+    detailLine(detail,t('Location'),r.location);
+    detailLine(detail,'TSP',r.tsp);
+    detailLine(detail,'R-RL NO',r.rrlNo);
+    detailLine(detail,t('Auditor Name'),r.auditorName);
+    detailLine(detail,t('Auditor Phone'),r.auditorPhone);
+    detailLine(detail,t('Supervisor Name'),r.employeeName);
+    detailLine(detail,t('Employee ID'),r.employeeUserId||r.reportBy);
+    detailLine(detail,t('Work Status'),t(r.status||''));
+    detailLine(detail,t('Work Type'),(r.workTypes||[]).join(', ')+(r.workOther?` (${r.workOther})`:''));
+    detailLine(detail,t('Installation'),(r.installs||[]).join(', ')+(r.installOther?` (${r.installOther})`:''));
+    detailLine(detail,'GPS',r.gps?`${r.gps.lat}, ${r.gps.lng}`:'');
+    detailLine(detail,t('Site Information / Work Description'),r.siteInfo);
+    if((r.materials||[]).length){
+        const h=document.createElement('strong');
+        h.textContent=t('Materials')+':';
+        detail.appendChild(h);
+        r.materials.forEach(m=>{
+            const d=document.createElement('div');
+            d.textContent=`• ${m.name||''} — ${m.qty} × ₹ ${m.rate} = ₹ ${Number(m.amount||0).toFixed(2)}`+(m.rrl?` • R/RL: ${m.rrl}`:'');
+            detail.appendChild(d);
+        });
+    }
+    detailLine(detail,t('Total Material Cost'),'₹ '+Number(r.total||0).toFixed(2));
+    detailLine(detail,t('Remarks'),r.remarks);
+    detailLine(detail,t('Received'),r.createdAt?new Date(r.createdAt).toLocaleString():'');
+    if((r.photoCount||0)>0){
+        const h=document.createElement('strong');
+        h.textContent=t('Photos: {n}',{n:r.photoCount});
+        detail.appendChild(h);
+        const wrap=document.createElement('div');
+        wrap.className='photo-preview';
+        const more=document.createElement('button');
+        more.type='button';
+        more.className='secondary';
+        more.textContent=t('Show more photos');
+        const state={offset:0};
+        more.addEventListener('click',()=>loadAdminPhotos(r.id,r.photoCount,wrap,more,state));
+        detail.append(wrap,more);
+        loadAdminPhotos(r.id,r.photoCount,wrap,more,state);
+    }
+}
+
+async function loadAdminPhotos(id,total,wrap,more,state){
+    more.disabled=true;
+    try{
+        const data=await adminRequest(`/api/reports/${encodeURIComponent(id)}/photos?offset=${state.offset}&limit=8`);
+        const list=data.photos||[];
+        list.forEach(src=>{
+            const img=document.createElement('img');
+            img.src=src;
+            img.alt='';
+            img.addEventListener('click',()=>{
+                $('lightbox').querySelector('img').src=src;
+                $('lightbox').classList.remove('hidden');
+            });
+            wrap.appendChild(img);
+        });
+        state.offset+=list.length;
+        more.classList.toggle('hidden',!list.length||state.offset>=total);
+    }catch(err){
+        const e=document.createElement('div');
+        e.textContent=err.message;
+        wrap.appendChild(e);
+    }finally{
+        more.disabled=false;
+    }
+}
+
+async function toggleAdminDetail(r,btn,detail){
+    if(detail.dataset.loaded){
+        const hidden=detail.classList.toggle('hidden');
+        btn.textContent=t(hidden?'View':'Hide');
+        return;
+    }
+    btn.disabled=true;
+    try{
+        const data=await adminRequest(`/api/reports/${encodeURIComponent(r.id)}`);
+        buildAdminDetail(detail,data.report||{});
+        detail.dataset.loaded='1';
+        detail.classList.remove('hidden');
+        btn.textContent=t('Hide');
+    }catch(err){
+        detail.textContent=err.message;
+        detail.classList.remove('hidden');
+    }finally{
+        btn.disabled=false;
+    }
+}
+
+$('adminSearch').addEventListener('input',renderAdminReports);
+$('loadAdminReportsBtn').addEventListener('click',()=>loadAdminReports());
+$('showAllReportsBtn').addEventListener('click',()=>{
+    $('adminFrom').value='';$('adminTo').value='';$('adminMonth').value='';$('adminTsp').value='';
+    loadAdminReports();
+});
+$('adminMonth').addEventListener('change',()=>{
+    const v=$('adminMonth').value;
+    if(v){$('adminFrom').value=v+'-01';$('adminTo').value=v+'-31';loadAdminReports();}
+});
+$('adminTsp').addEventListener('change',renderAdminReports);
+$('lightbox').addEventListener('click',()=>$('lightbox').classList.add('hidden'));
+
+
+// ADMIN: SHARE REPORT (WhatsApp, PDF, Excel)
+
+const JSPDF_URL='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+const XLSX_URL='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+const libCache={};
+function loadLib(url){
+    if(!libCache[url])libCache[url]=new Promise((res,rej)=>{
+        const sc=document.createElement('script');
+        sc.src=url;sc.onload=res;sc.onerror=()=>{delete libCache[url];rej(new Error('lib'));};
+        document.head.appendChild(sc);
+    });
+    return libCache[url];
+}
+const safeName=v=>String(v||'report').replace(/[^\w.-]+/g,'_');
+const join2=(arr,other)=>(arr||[]).join(', ')+(other?` (${other})`:'');
+
+async function shareFile(name,b64,mime,title){
+    const P=window.Capacitor&&window.Capacitor.Plugins;
+    try{
+        if(P&&P.Filesystem&&P.Share){
+            const w=await P.Filesystem.writeFile({path:name,data:b64,directory:'CACHE'});
+            await P.Share.share({title,files:[w.uri],dialogTitle:title});
+            return;
+        }
+    }catch(e){
+        if(/cancel/i.test(String(e&&e.message)))return;
+        console.warn(e);
+    }
+    const bin=atob(b64),arr=new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);
+    const file=new File([arr],name,{type:mime});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){
+        try{await navigator.share({files:[file],title});return;}catch(e){if(e.name==='AbortError')return;}
+    }
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(file);a.download=name;
+    document.body.appendChild(a);a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000);
+}
+
+async function shareText(text){
+    const P=window.Capacitor&&window.Capacitor.Plugins;
+    try{if(P&&P.Share){await P.Share.share({text});return;}}catch(e){if(/cancel/i.test(String(e&&e.message)))return;}
+    if(navigator.share){try{await navigator.share({text});return;}catch(e){if(e.name==='AbortError')return;}}
+    window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+}
+
+function reportText(r){
+    return [
+        t('SIYA DAILY REPORT'),
+        `${t('Date')}: ${r.date||''}`,
+        `${t('Site ID')}: ${r.siteId||''}`,
+        `${t('Site')}: ${r.siteName||''}`,
+        `${t('Location')}: ${r.location||''}`,
+        `${t('Supervisor')}: ${r.employeeName||''}`,
+        r.rrlNo?`R-RL NO: ${r.rrlNo}`:'',
+        r.auditorName?`${t('Auditor Name')}: ${r.auditorName} ${r.auditorPhone||''}`:'',
+        `${t('Status')}: ${t(r.status||'')}`,
+        (r.workTypes||[]).length?`${t('Work Type')}: ${join2(r.workTypes,r.workOther)}`:'',
+        (r.installs||[]).length?`${t('Installation')}: ${join2(r.installs,r.installOther)}`:'',
+        `${t('Work')}: ${r.siteInfo||''}`,
+        `${t('Material Total')}: ₹ ${Number(r.total||0).toFixed(2)}`,
+        r.remarks?`${t('Remarks')}: ${r.remarks}`:'',
+        r.gps?`GPS: https://maps.google.com/?q=${r.gps.lat},${r.gps.lng}`:''
+    ].filter(Boolean).join('\n');
+}
+
+const XL_HEAD=['Date','Site ID','Site Name','Location','TSP','Supervisor','Status','Work Type','Installation','R-RL NO','Auditor Name','Auditor Phone','Total (Rs)','Photos','Received'];
+function xlRow(r){
+    return [r.date||'',r.siteId||'',r.siteName||'',r.location||'',r.tsp||'',r.employeeName||'',r.status||'',
+        join2(r.workTypes,r.workOther),join2(r.installs,r.installOther),r.rrlNo||'',r.auditorName||'',r.auditorPhone||'',
+        Number(r.total||0),r.photoCount||0,r.createdAt?new Date(r.createdAt).toLocaleString():''];
+}
+const XLSX_MIME='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+async function exportExcel(r){
+    await loadLib(XLSX_URL);
+    await shareFile(`SIYA_${safeName(r.siteId)}_${r.date||''}.xlsx`,excelB64(r),XLSX_MIME,'SIYA Report');
+}
+
+function excelB64(r){
+    const wb=XLSX.utils.book_new();
+    const row=xlRow(r);
+    const kv=XL_HEAD.map((h,i)=>[h,row[i]]);
+    kv.push(['Work Description',r.siteInfo||''],['Remarks',r.remarks||''],['GPS',r.gps?`${r.gps.lat}, ${r.gps.lng}`:'']);
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(kv),'Report');
+    const mats=[['Material','Qty','Rate','Amount']].concat((r.materials||[]).map(m=>[m.name,m.qty,m.rate,Number(m.amount||0)]));
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(mats),'Materials');
+    return XLSX.write(wb,{bookType:'xlsx',type:'base64'});
+}
+
+async function exportExcelAll(){
+    if(!adminShown.length)return;
+    await loadLib(XLSX_URL);
+    const wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([XL_HEAD].concat(adminShown.map(xlRow))),'Reports');
+    await shareFile(`SIYA_Reports_${today}.xlsx`,XLSX.write(wb,{bookType:'xlsx',type:'base64'}),XLSX_MIME,'SIYA Reports');
+}
+
+async function fetchAllPhotos(id,total){
+    const out=[];
+    for(let o=0;o<total;o+=8){
+        const d=await adminRequest(`/api/reports/${encodeURIComponent(id)}/photos?offset=${o}&limit=8`);
+        out.push(...(d.photos||[]));
+    }
+    return out;
+}
+const loadImg=src=>new Promise(res=>{const im=new Image();im.onload=()=>res(im);im.onerror=()=>res(null);im.src=src;});
+
+function pdfBuilder(){
+    const W=1240,H=1754,M=70,CW=W-2*M,pages=[];
+    const S={pages,W,H,M,CW,cv:null,ctx:null,y:0};
+    S.np=()=>{S.cv=document.createElement('canvas');S.cv.width=W;S.cv.height=H;S.ctx=S.cv.getContext('2d');S.ctx.fillStyle='#fff';S.ctx.fillRect(0,0,W,H);S.y=M;pages.push(S.cv);};
+    S.txt=(str,size=28,bold=false,color='#111')=>{
+        const f=`${bold?'bold ':''}${size}px sans-serif`;
+        S.ctx.font=f;
+        const lines=[];let cur='';
+        String(str).split(/\s+/).forEach(w=>{const tt=cur?cur+' '+w:w;if(S.ctx.measureText(tt).width>CW&&cur){lines.push(cur);cur=w;}else cur=tt;});
+        lines.push(cur);
+        lines.forEach(l=>{if(S.y+size*1.5>H-M)S.np();S.ctx.font=f;S.ctx.fillStyle=color;S.ctx.fillText(l,M,S.y+size);S.y+=size*1.5;});
+    };
+    S.b64=()=>{
+        const pdf=new window.jspdf.jsPDF({unit:'mm',format:'a4'});
+        pages.forEach((c,i)=>{if(i)pdf.addPage();pdf.addImage(c.toDataURL('image/jpeg',0.85),'JPEG',0,0,210,297);});
+        return pdf.output('datauristring').split(',')[1];
+    };
+    S.np();
+    return S;
+}
+
+async function buildReportPdf(r,withPhotos){
+    await loadLib(JSPDF_URL);
+    const photos=withPhotos?await fetchAllPhotos(r.id,r.photoCount||0):[];
+    const S=pdfBuilder(),txt=S.txt;
+    txt(t('SIYA DAILY REPORT'),46,true,'#7a1f1f');S.y+=10;
+    [[t('Date'),r.date],[t('Site ID'),r.siteId],[t('Site'),r.siteName],[t('Location'),r.location],['TSP',r.tsp],[t('Supervisor'),r.employeeName],
+     ['R-RL NO',r.rrlNo],[t('Auditor Name'),`${r.auditorName||''} ${r.auditorPhone||''}`.trim()],[t('Status'),t(r.status||'')],
+     [t('Work Type'),join2(r.workTypes,r.workOther)],[t('Installation'),join2(r.installs,r.installOther)],
+     ['GPS',r.gps?`${r.gps.lat}, ${r.gps.lng}`:'']
+    ].forEach(([k,v])=>{if(v)txt(`${k}: ${v}`);});
+    S.y+=8;
+    if(r.siteInfo){txt(t('Site Information / Work Description'),28,true);txt(r.siteInfo);S.y+=8;}
+    if((r.materials||[]).length){
+        txt(t('Materials'),30,true);
+        r.materials.forEach(m=>txt(`• ${m.name||''} — ${m.qty} × ₹ ${m.rate} = ₹ ${Number(m.amount||0).toFixed(2)}`));
+    }
+    txt(`${t('Material Total')}: ₹ ${Number(r.total||0).toFixed(2)}`,30,true);S.y+=8;
+    if(r.remarks)txt(`${t('Remarks')}: ${r.remarks}`);
+    if(photos.length){
+        S.y+=14;txt(`${t('Photos')}: ${photos.length}`,30,true);S.y+=6;
+        const BW=(S.CW-30)/2,BH=400;
+        for(let i=0;i<photos.length;i+=2){
+            if(S.y+BH>S.H-S.M)S.np();
+            for(let j=0;j<2&&i+j<photos.length;j++){
+                const img=await loadImg(photos[i+j]);
+                if(!img)continue;
+                const sc=Math.min(BW/img.width,BH/img.height);
+                S.ctx.drawImage(img,S.M+j*(BW+30),S.y,img.width*sc,img.height*sc);
+            }
+            S.y+=BH+20;
+        }
+    }
+    return S.b64();
+}
+
+async function exportPdf(r){
+    await shareFile(`SIYA_${safeName(r.siteId)}_${r.date||''}.pdf`,await buildReportPdf(r,true),'application/pdf','SIYA Report');
+}
+
+const rangeLabel=()=>{const f=$('adminFrom').value,to=$('adminTo').value;return(f||to)?`${f||'...'} → ${to||'...'}`:t('All');};
+const shownTotal=()=>adminShown.reduce((a,r)=>a+Number(r.total||0),0);
+
+function summaryText(){
+    return [`${t('SIYA DAILY REPORT')} (${rangeLabel()})`,`${t('Reports')}: ${adminShown.length} | ₹ ${shownTotal().toFixed(2)}`,'']
+        .concat(adminShown.map((r,i)=>`${i+1}. ${r.date} | ${r.siteId} | ${r.tsp||'-'} | ${r.employeeName} | ${t(r.status||'')}`)).join('\n');
+}
+
+async function exportPdfAll(){
+    if(!adminShown.length)return;
+    await loadLib(JSPDF_URL);
+    const S=pdfBuilder();
+    S.txt(`${t('SIYA DAILY REPORT')} (${rangeLabel()})`,40,true,'#7a1f1f');
+    S.txt(`${t('Reports')}: ${adminShown.length}   ₹ ${shownTotal().toFixed(2)}`,28,true);S.y+=10;
+    adminShown.forEach((r,i)=>S.txt(`${i+1}. ${r.date} | ${r.siteId} | ${r.siteName||''} | ${r.tsp||'-'} | ${r.employeeName} | ${t(r.status||'')} | ₹ ${Number(r.total||0).toFixed(2)}`,26));
+    await shareFile(`SIYA_Reports_${today}.pdf`,S.b64(),'application/pdf','SIYA Reports');
+}
+
+const b64ToU8=b=>{const bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u;};
+
+async function sharePhotos(r){
+    const photos=await fetchAllPhotos(r.id,r.photoCount||0);
+    if(!photos.length)return;
+    const P=window.Capacitor&&window.Capacitor.Plugins;
+    for(let k=0;k<photos.length;k+=50){           // up to 50 photos in one share
+        const part=photos.slice(k,k+50);
+        if(P&&P.Filesystem&&P.Share){
+            const uris=[];
+            for(let i=0;i<part.length;i++){
+                const w=await P.Filesystem.writeFile({path:`SIYA_${safeName(r.siteId)}_${k+i+1}.jpg`,data:part[i].split(',')[1],directory:'CACHE'});
+                uris.push(w.uri);
+            }
+            await P.Share.share({title:'SIYA photos',files:uris});
+        }else{
+            const files=part.map((p,i)=>new File([b64ToU8(p.split(',')[1])],`SIYA_${safeName(r.siteId)}_${k+i+1}.jpg`,{type:'image/jpeg'}));
+            if(navigator.canShare&&navigator.canShare({files}))await navigator.share({files});
+            else throw new Error('share');
+        }
+    }
+}
+
+function messageAuditor(r){
+    let ph=String(r.auditorPhone||'').replace(/\D/g,'');
+    if(ph.length===10)ph='91'+ph;
+    if(ph.length<11){alert(t('Invalid phone'));return;}
+    window.open(`https://wa.me/${ph}?text=${encodeURIComponent(`${t('Hello')} ${r.auditorName||''},\n`+reportText(r))}`,'_blank');
+}
+
+async function emailTsp(r){
+    if(!r.tsp){alert(t('Set TSP first (Edit).'));return;}
+    const dir=(await adminRequest('/api/tsp')).tsp||[];
+    const known=(dir.find(x=>String(x.name).toLowerCase()===r.tsp.toLowerCase())||{}).email||'';
+    const typed=prompt(`${t('TSP email')} (${r.tsp})`,known);
+    if(typed===null)return;
+    const email=typed.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert(t('Invalid email'));return;}
+    if(email!==known)await adminChange('/api/tsp',{method:'PUT',body:JSON.stringify({name:r.tsp,email})});
+    const pdf=await buildReportPdf(r,false);
+    await loadLib(XLSX_URL);
+    const base=`SIYA_${safeName(r.siteId)}_${r.date||''}`;
+    await adminChange(`/api/reports/${encodeURIComponent(r.id)}/email`,{method:'POST',body:JSON.stringify({
+        to:email,subject:`SIYA Daily Report - ${r.siteId} - ${r.date||''}`,text:reportText(r),
+        attachments:[{name:`${base}.pdf`,content:pdf},{name:`${base}.xlsx`,content:excelB64(r)}]})});
+    alert(t('Email sent.'));
+}
+
+// ---- OTP (needed for admin changes) ----
+function askOtp(){
+    return new Promise(resolve=>{
+        const box=$('otpBox');
+        box.classList.remove('hidden');
+        box.innerHTML=`<div class="card"><h2>${t('Admin OTP')}</h2>
+            <p class="hint">${t('OTP is needed for admin changes. It will be sent to the admin email.')}</p>
+            <div class="actions"><button type="button" class="secondary" id="otpSend">${t('Send OTP')}</button></div>
+            <input id="otpCode" inputmode="numeric" maxlength="6" placeholder="${t('Enter 6-digit OTP')}" style="margin-top:10px">
+            <div class="actions"><button type="button" class="primary" id="otpOk">${t('Verify')}</button><button type="button" class="secondary" id="otpCancel">${t('Cancel')}</button></div>
+            <p class="hint" id="otpMsg"></p></div>`;
+        const msg=x=>{$('otpMsg').textContent=x;};
+        const done=ok=>{box.classList.add('hidden');box.innerHTML='';resolve(ok);};
+        $('otpSend').onclick=async()=>{
+            $('otpSend').disabled=true;
+            try{await adminRequest('/api/admin/otp/request',{method:'POST'});msg(t('OTP sent. Check the admin email.'));}
+            catch(err){msg(err.message);}
+            setTimeout(()=>{const b=$('otpSend');if(b)b.disabled=false;},30000);
+        };
+        $('otpOk').onclick=async()=>{
+            try{
+                const d=await adminRequest('/api/admin/otp/verify',{method:'POST',body:JSON.stringify({code:$('otpCode').value.trim()})});
+                changeToken=d.changeToken;changeUntil=Date.now()+((d.minutes||15)*60000)-10000;
+                done(true);
+            }catch(err){msg(err.message);}
+        };
+        $('otpCancel').onclick=()=>done(false);
+    });
+}
+
+async function adminChange(path,options={}){
+    for(let i=0;i<2;i++){
+        const valid=changeToken&&Date.now()<changeUntil;
+        try{
+            return await adminRequest(path,{...options,headers:{...(options.headers||{}),...(valid?{'X-Change-Token':changeToken}:{})}});
+        }catch(err){
+            if(err.code==='OTP_REQUIRED'){
+                changeToken='';
+                if(!(await askOtp()))throw new Error(t('Cancelled'));
+                continue;
+            }
+            throw err;
+        }
+    }
+    throw new Error('OTP required');
+}
+
+// ---- edit a report ----
+function openEdit(r){
+    const box=$('editBox');
+    const esc=v=>String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+    const inp=(id,label,val,type='text')=>`<label for="${id}">${t(label)}</label><input id="${id}" type="${type}" value="${esc(val)}">`;
+    const stat=['In Progress','Completed','Pending','On Hold'].map(x=>`<option value="${x}"${r.status===x?' selected':''}>${t(x)}</option>`).join('');
+    box.classList.remove('hidden');
+    box.innerHTML=`<div class="card"><h2>${t('Edit Report')}</h2>
+        ${inp('eDate','Date',r.date,'date')}${inp('eSiteId','Site ID',r.siteId)}${inp('eSiteName','Site Name',r.siteName)}${inp('eLocation','Location',r.location)}
+        ${inp('eTsp','TSP',r.tsp)}${inp('eEmp','Supervisor Name',r.employeeName)}${inp('eRrl','R-RL NO',r.rrlNo)}
+        ${inp('eAudN','Auditor Name',r.auditorName)}${inp('eAudP','Auditor Phone',r.auditorPhone,'tel')}
+        <label for="eStatus">${t('Work Status')}</label><select id="eStatus">${stat}</select>
+        <label for="eInfo">${t('Site Information / Work Description')}</label><textarea id="eInfo">${esc(r.siteInfo)}</textarea>
+        <label for="eRem">${t('Remarks')}</label><textarea id="eRem">${esc(r.remarks)}</textarea>
+        <label>${t('Material name')} / ${t('Qty')} / ${t('Rate')}</label><div id="eMats"></div>
+        <button type="button" class="secondary" id="eAddMat">${t('+ Add Material')}</button>
+        <div class="actions"><button type="button" class="primary" id="eSave">${t('Save')}</button><button type="button" class="secondary" id="eCancel">${t('Cancel')}</button></div>
+        <p class="hint" id="eMsg"></p></div>`;
+    const addRow=(m={})=>{
+        const row=document.createElement('div');row.className='material-row';
+        row.innerHTML=`<input class="em-name" value="${esc(m.name)}" placeholder="${t('Material name')}"><input class="em-qty" type="number" min="0" step="any" value="${esc(m.qty)}" placeholder="${t('Qty')}"><input class="em-rate" type="number" min="0" step="any" value="${esc(m.rate)}" placeholder="${t('Rate')}"><button type="button" class="remove">×</button>`;
+        row.querySelector('.remove').onclick=()=>row.remove();
+        $('eMats').appendChild(row);
+    };
+    (r.materials||[]).forEach(addRow);
+    $('eAddMat').onclick=()=>addRow();
+    $('eCancel').onclick=()=>{box.classList.add('hidden');box.innerHTML='';};
+    $('eSave').onclick=async()=>{
+        $('eSave').disabled=true;
+        try{
+            await adminChange(`/api/reports/${encodeURIComponent(r.id)}`,{method:'PUT',body:JSON.stringify({
+                date:$('eDate').value,siteId:$('eSiteId').value.trim(),siteName:$('eSiteName').value.trim(),location:$('eLocation').value.trim(),
+                tsp:$('eTsp').value.trim(),employeeName:$('eEmp').value.trim(),rrlNo:$('eRrl').value.trim(),
+                auditorName:$('eAudN').value.trim(),auditorPhone:$('eAudP').value.trim(),status:$('eStatus').value,
+                siteInfo:$('eInfo').value,remarks:$('eRem').value,
+                materials:Array.from(document.querySelectorAll('#eMats .material-row')).map(rw=>({name:rw.querySelector('.em-name').value.trim(),qty:Number(rw.querySelector('.em-qty').value)||0,rate:Number(rw.querySelector('.em-rate').value)||0})).filter(m=>m.name||m.qty||m.rate)})});
+            box.classList.add('hidden');box.innerHTML='';
+            alert(t('Report updated.'));
+            loadAdminReports();
+        }catch(err){$('eMsg').textContent=err.message;}
+        $('eSave').disabled=false;
+    };
+}
+
+function addShareBar(detail,r){
+    const bar=document.createElement('div');
+    bar.className='actions';
+    const items=[['WhatsApp / Share',()=>shareText(reportText(r))],['PDF',()=>exportPdf(r)],['Excel',()=>exportExcel(r)]];
+    if((r.photoCount||0)>0)items.push(['Share photos',()=>sharePhotos(r)]);
+    if(r.auditorPhone)items.push(['Message auditor',()=>messageAuditor(r)]);
+    if(FEATURE_EMAIL)items.push(['Email TSP',()=>emailTsp(r)]);
+    items.push(['Edit',()=>openEdit(r)]);
+    items.forEach(([label,fn])=>{
+        const b=document.createElement('button');
+        b.type='button';b.className='secondary';b.textContent=t(label);
+        b.addEventListener('click',async()=>{
+            b.disabled=true;
+            const old=b.textContent;
+            b.textContent=t('Preparing file...');
+            try{await fn();}
+            catch(err){if(String(err&&err.message)!==t('Cancelled'))alert(err&&err.message&&err.message!=='lib'&&err.message!=='share'?err.message:t('Could not create file. Check internet.'));}
+            b.textContent=old;b.disabled=false;
+        });
+        bar.appendChild(b);
+    });
+    detail.appendChild(bar);
+}
+
+$('saveOptionsBtn').addEventListener('click',async()=>{
+    const clean=id=>Array.from(new Set($(id).value.split('\n').map(x=>x.trim().slice(0,50)).filter(x=>x&&x.toLowerCase()!=='other'))).slice(0,40);
+    const body={tsp:clean('optTsp'),installs:clean('optInst')};
+    try{
+        await adminChange('/api/options',{method:'PUT',body:JSON.stringify(body)});
+        applyOptions(body);
+        try{localStorage.setItem('siyaOptions',JSON.stringify(OPTIONS));}catch(e){}
+        alert(t('Lists saved.'));
+    }catch(err){if(String(err.message)!==t('Cancelled'))alert(err.message);}
+});
+$('pdfAllBtn').addEventListener('click',async()=>{
+    const b=$('pdfAllBtn');b.disabled=true;
+    try{await exportPdfAll();}catch(err){alert(t('Could not create file. Check internet.'));}
+    b.disabled=false;
+});
+$('waAllBtn').addEventListener('click',()=>{if(adminShown.length)shareText(summaryText());});
+$('lbShare').addEventListener('click',e=>{
+    e.stopPropagation();
+    const src=$('lightbox').querySelector('img').src;
+    if(src.startsWith('data:'))shareFile('SIYA_photo.jpg',src.split(',')[1],'image/jpeg','SIYA photo').catch(()=>{});
+});
+$('exportAllBtn').addEventListener('click',async()=>{
+    const b=$('exportAllBtn');
+    b.disabled=true;
+    try{await exportExcelAll();}catch(err){alert(t('Could not create file. Check internet.'));}
+    b.disabled=false;
+});
+
+
+// LANGUAGE TOGGLE
+$('langBtn').addEventListener('click',()=>{
+    lang=lang==='mr'?'en':'mr';
+    try{localStorage.setItem('siyaLang',lang);}catch(e){}
+    applyLang();
+});
+applyOptions(OPTIONS);
+(function restoreSession(){
+    try{
+        const sv=JSON.parse(localStorage.getItem('siyaSession')||'null');
+        if(sv&&sv.token&&sv.user&&(sv.user.role==='admin'||sv.user.role==='employee'))enterApp(sv);
+    }catch(e){}
+})();
+applyLang();
+
+</script>
+
+</body>
+</html>
